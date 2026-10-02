@@ -195,8 +195,8 @@ function M.setup(opts)
     ['@lsp.type.method'] = { fg = p.blue }, ['@lsp.type.macro'] = { fg = p.blue },
     ['@lsp.type.procMacro'] = { fg = p.blue }, ['@lsp.type.derive'] = { fg = p.blue },
     ['@lsp.type.deriveHelper'] = { fg = p.blue },
-    ['@lsp.type.property'] = { fg = p.green }, ['@lsp.type.variable'] = { fg = p.fg_bright },
-    ['@lsp.type.parameter'] = { fg = p.fg_bright }, ['@lsp.type.enumMember'] = { fg = p.green },
+    ['@lsp.type.property'] = { fg = p.fg_bright }, ['@lsp.type.variable'] = { fg = p.fg_bright },
+    ['@lsp.type.parameter'] = { fg = p.yellow }, ['@lsp.type.enumMember'] = { fg = p.fg_bright },
     ['@lsp.type.const'] = { fg = p.yellow }, ['@lsp.type.static'] = { fg = p.yellow },
     ['@lsp.type.constParameter'] = { fg = p.yellow }, ['@lsp.type.label'] = { fg = p.green },
     ['@lsp.type.lifetime'] = { fg = p.green }, ['@lsp.type.generic'] = { fg = p.green },
@@ -205,25 +205,59 @@ function M.setup(opts)
     ['@lsp.type.escapeSequence'] = { fg = '#89DDFF' },
     ['@lsp.type.formatSpecifier'] = { fg = p.fg_bright },
     ['@lsp.type.invalidEscapeSequence'] = { fg = p.red },
-    ['@lsp.type.operator'] = { fg = p.purple }, ['@lsp.type.keyword'] = { fg = p.yellow },
+    ['@lsp.type.operator'] = { fg = p.purple }, ['@lsp.type.keyword'] = { fg = p.blue },
     ['@lsp.type.arithmetic'] = { fg = p.purple }, ['@lsp.type.bitwise'] = { fg = p.purple },
     ['@lsp.type.comparison'] = { fg = p.purple }, ['@lsp.type.logical'] = { fg = p.purple },
     ['@lsp.type.negation'] = { fg = p.purple }, ['@lsp.type.colon'] = { fg = p.purple },
     ['@lsp.type.dot'] = { fg = p.purple }, ['@lsp.type.comma'] = { fg = p.blue },
     ['@lsp.type.semicolon'] = { fg = p.blue }, ['@lsp.type.macroBang'] = { fg = p.blue },
-    ['@lsp.type.punctuation'] = { fg = p.blue }, ['@lsp.type.angle'] = { fg = p.yellow },
-    ['@lsp.type.brace'] = { fg = p.yellow }, ['@lsp.type.bracket'] = { fg = p.yellow },
-    ['@lsp.type.parenthesis'] = { fg = p.yellow }, ['@lsp.type.attributeBracket'] = { fg = p.yellow },
+    ['@lsp.type.punctuation'] = { fg = p.blue },
     ['@lsp.type.selfKeyword'] = { fg = p.pink, italic = true },
     ['@lsp.type.selfTypeKeyword'] = { fg = p.green },
     ['@lsp.type.attribute'] = { fg = p.magenta }, ['@lsp.type.builtinAttribute'] = { fg = p.magenta },
     ['@lsp.type.decorator'] = { fg = p.magenta, italic = true },
     ['@lsp.type.unresolvedReference'] = { fg = p.red },
-    ['@lsp.mod.controlFlow'] = { fg = p.blue }, ['@lsp.mod.crateRoot'] = { fg = p.yellow },
-    ['@lsp.mod.readonly'] = { italic = true },
+    ['@lsp.mod.controlFlow'] = { fg = p.blue },
     ['@lsp.mod.deprecated'] = { strikethrough = true },
   }
   for g, s in pairs(lsp) do hi(g, s) end
+
+  -- rust-analyzer semantic tokens, mapped through its VS Code scope fallbacks.
+  local rust_lsp = {
+    ['@lsp.type.variable.rust'] = { fg = p.fg_bright },
+    ['@lsp.type.parameter.rust'] = { fg = p.fg_bright },
+    ['@lsp.type.keyword.rust'] = { fg = p.yellow },
+    ['@lsp.type.operator.rust'] = { fg = p.purple },
+    ['@lsp.type.property.rust'] = { fg = p.green },
+    ['@lsp.type.enumMember.rust'] = { fg = p.green },
+    ['@lsp.type.namespace.rust'] = { fg = p.green },
+    ['@lsp.type.lifetime.rust'] = { fg = p.purple },
+    ['@lsp.type.formatSpecifier.rust'] = { fg = p.blue },
+    ['@lsp.type.constParameter.rust'] = { fg = p.fg_bright },
+    ['@lsp.mod.controlFlow.rust'] = { fg = p.blue },
+    ['@lsp.mod.mutable.rust'] = { fg = p.orange, underline = true },
+  }
+  for g, s in pairs(rust_lsp) do hi(g, s) end
+
+  -- nixd uses method for attribute declarations, type for selections, regexp
+  -- for lambda arguments/null, and macro for booleans.
+  local nix_lsp = {
+    ['@lsp.type.method.nix'] = { fg = p.magenta },
+    ['@lsp.type.type.nix'] = { fg = p.magenta },
+    ['@lsp.type.regexp.nix'] = { fg = p.yellow },
+    ['@lsp.type.macro.nix'] = { fg = p.yellow },
+    ['@lsp.type.keyword.nix'] = { fg = p.blue },
+    ['@lsp.type.interface.nix'] = { fg = p.green },
+    ['@lsp.type.variable.nix'] = { fg = p.fg_bright },
+    ['@lsp.type.function.nix'] = { fg = p.blue },
+  }
+  for g, s in pairs(nix_lsp) do hi(g, s) end
+
+  -- Tree-sitter fallback while nixd is starting.
+  hi('@variable.member.nix', { fg = p.magenta })
+  hi('@variable.parameter.nix', { fg = p.yellow })
+  hi('@function.nix', { fg = p.magenta })
+  hi('@keyword.conditional.nix', { fg = p.yellow })
   -- Diagnostics
   hi('DiagnosticError', { fg = '#FF1865' })
   hi('DiagnosticWarn', { fg = p.warning })
