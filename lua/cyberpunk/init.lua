@@ -83,20 +83,20 @@ function M.setup(opts)
   hi('Float', { fg = p.yellow })
   hi('Identifier', { fg = p.fg_bright })
   hi('Function', { fg = p.blue })
-  hi('Statement', { fg = p.purple })
+  hi('Statement', { fg = p.yellow })
   hi('Conditional', { fg = p.blue })
   hi('Repeat', { fg = p.blue })
   hi('Label', { fg = p.green })
   hi('Operator', { fg = p.purple })
-  hi('Keyword', { fg = p.purple })
+  hi('Keyword', { fg = p.yellow })
   hi('Exception', { fg = p.blue })
   hi('PreProc', { fg = p.blue })
-  hi('Include', { fg = p.blue })
+  hi('Include', { fg = p.yellow })
   hi('Define', { fg = p.blue })
   hi('Macro', { fg = p.blue })
   hi('PreCondit', { fg = p.blue })
   hi('Type', { fg = p.green })
-  hi('StorageClass', { fg = p.purple })
+  hi('StorageClass', { fg = p.yellow })
   hi('Structure', { fg = p.green })
   hi('Typedef', { fg = p.green })
   hi('Special', { fg = p.cyan2 })
@@ -117,7 +117,7 @@ function M.setup(opts)
     ['@variable.builtin'] = { fg = p.pink, italic = true },
     ['@variable.parameter'] = { fg = p.fg_bright },
     ['@variable.parameter.builtin'] = { fg = p.fg_bright },
-    ['@variable.member'] = { fg = p.fg_bright },
+    ['@variable.member'] = { fg = p.green },
     ['@constant'] = { fg = p.yellow },
     ['@constant.builtin'] = { fg = p.yellow },
     ['@constant.macro'] = { fg = p.yellow },
@@ -139,22 +139,22 @@ function M.setup(opts)
     ['@type.definition'] = { fg = p.green },
     ['@attribute'] = { fg = p.magenta },
     ['@attribute.builtin'] = { fg = p.magenta },
-    ['@property'] = { fg = p.fg_bright },
+    ['@property'] = { fg = p.green },
     ['@function'] = { fg = p.blue },
     ['@function.builtin'] = { fg = p.blue },
     ['@function.call'] = { fg = p.blue },
     ['@function.macro'] = { fg = p.blue },
     ['@function.method'] = { fg = p.blue },
     ['@function.method.call'] = { fg = p.blue },
-    ['@constructor'] = { fg = p.blue2 },
+    ['@constructor'] = { fg = p.green },
     ['@operator'] = { fg = p.purple },
-    ['@keyword'] = { fg = p.purple },
-    ['@keyword.coroutine'] = { fg = p.purple },
-    ['@keyword.function'] = { fg = p.purple },
+    ['@keyword'] = { fg = p.yellow },
+    ['@keyword.coroutine'] = { fg = p.yellow },
+    ['@keyword.function'] = { fg = p.yellow },
     ['@keyword.operator'] = { fg = p.purple },
-    ['@keyword.import'] = { fg = p.blue },
-    ['@keyword.type'] = { fg = p.purple },
-    ['@keyword.modifier'] = { fg = p.purple },
+    ['@keyword.import'] = { fg = p.yellow },
+    ['@keyword.type'] = { fg = p.yellow },
+    ['@keyword.modifier'] = { fg = p.yellow },
     ['@keyword.repeat'] = { fg = p.blue },
     ['@keyword.return'] = { fg = p.blue },
     ['@keyword.debug'] = { fg = p.purple },
@@ -184,66 +184,46 @@ function M.setup(opts)
     ['@diff.delta'] = { fg = p.purple2 },
   }
   for g, s in pairs(ts) do hi(g, s) end
-  -- TextMate scopes used by VS Code's Rust grammar do not map one-to-one to
-  -- Tree-sitter captures. Keep these overrides aligned with Umbra's scope order.
-  local rust = {
-    ['@keyword.rust'] = { fg = p.yellow },
-    ['@keyword.function.rust'] = { fg = p.yellow },
-    ['@keyword.coroutine.rust'] = { fg = p.yellow },
-    ['@keyword.import.rust'] = { fg = p.yellow },
-    ['@keyword.other.rust'] = { fg = p.yellow },
-    ['@keyword.control.rust'] = { fg = p.blue },
-    ['@keyword.debug.rust'] = { fg = p.blue },
-    ['@character.rust'] = { fg = p.string },
-    ['@label.rust'] = { fg = p.green },
-    ['@attribute.rust'] = { fg = p.green },
-    ['@attribute.builtin.rust'] = { fg = p.green },
-    ['@constructor.rust'] = { fg = p.green },
-  }
-  for g, s in pairs(rust) do hi(g, s) end
-  local nix = {
-    ['@keyword.nix'] = { fg = p.yellow },
-    ['@keyword.conditional.nix'] = { fg = p.yellow },
-    ['@keyword.import.nix'] = { fg = p.blue },
-    ['@variable.parameter.nix'] = { fg = p.yellow },
-    ['@variable.parameter.builtin.nix'] = { fg = p.yellow },
-    ['@variable.member.nix'] = { fg = p.magenta },
-  }
-  for g, s in pairs(nix) do hi(g, s) end
-  hi('@function.method.javascript', { fg = p.blue2, italic = true })
-  hi('@function.method.call.javascript', { fg = p.blue2 })
   -- LSP semantic tokens
   local lsp = {
     ['@lsp.type.class'] = { fg = p.green }, ['@lsp.type.struct'] = { fg = p.green },
     ['@lsp.type.interface'] = { fg = p.green }, ['@lsp.type.enum'] = { fg = p.green },
     ['@lsp.type.type'] = { fg = p.green }, ['@lsp.type.typeParameter'] = { fg = p.green },
+    ['@lsp.type.union'] = { fg = p.green }, ['@lsp.type.builtinType'] = { fg = p.green },
+    ['@lsp.type.typeAlias'] = { fg = p.green }, ['@lsp.type.toolModule'] = { fg = p.green },
     ['@lsp.type.namespace'] = { fg = p.green }, ['@lsp.type.function'] = { fg = p.blue },
     ['@lsp.type.method'] = { fg = p.blue }, ['@lsp.type.macro'] = { fg = p.blue },
-    ['@lsp.type.property'] = { fg = p.fg_bright }, ['@lsp.type.variable'] = { fg = p.fg_bright },
-    ['@lsp.type.parameter'] = { fg = p.fg_bright }, ['@lsp.type.enumMember'] = { fg = p.fg_bright },
-    ['@lsp.type.operator'] = { fg = p.purple }, ['@lsp.type.keyword'] = { fg = p.purple },
+    ['@lsp.type.procMacro'] = { fg = p.blue }, ['@lsp.type.derive'] = { fg = p.blue },
+    ['@lsp.type.deriveHelper'] = { fg = p.blue },
+    ['@lsp.type.property'] = { fg = p.green }, ['@lsp.type.variable'] = { fg = p.fg_bright },
+    ['@lsp.type.parameter'] = { fg = p.fg_bright }, ['@lsp.type.enumMember'] = { fg = p.green },
+    ['@lsp.type.const'] = { fg = p.yellow }, ['@lsp.type.static'] = { fg = p.yellow },
+    ['@lsp.type.constParameter'] = { fg = p.yellow }, ['@lsp.type.label'] = { fg = p.green },
+    ['@lsp.type.lifetime'] = { fg = p.green }, ['@lsp.type.generic'] = { fg = p.green },
+    ['@lsp.type.number'] = { fg = p.yellow }, ['@lsp.type.boolean'] = { fg = p.yellow },
+    ['@lsp.type.string'] = { fg = p.string }, ['@lsp.type.character'] = { fg = p.string },
+    ['@lsp.type.escapeSequence'] = { fg = '#89DDFF' },
+    ['@lsp.type.formatSpecifier'] = { fg = p.fg_bright },
+    ['@lsp.type.invalidEscapeSequence'] = { fg = p.red },
+    ['@lsp.type.operator'] = { fg = p.purple }, ['@lsp.type.keyword'] = { fg = p.yellow },
+    ['@lsp.type.arithmetic'] = { fg = p.purple }, ['@lsp.type.bitwise'] = { fg = p.purple },
+    ['@lsp.type.comparison'] = { fg = p.purple }, ['@lsp.type.logical'] = { fg = p.purple },
+    ['@lsp.type.negation'] = { fg = p.purple }, ['@lsp.type.colon'] = { fg = p.purple },
+    ['@lsp.type.dot'] = { fg = p.purple }, ['@lsp.type.comma'] = { fg = p.blue },
+    ['@lsp.type.semicolon'] = { fg = p.blue }, ['@lsp.type.macroBang'] = { fg = p.blue },
+    ['@lsp.type.punctuation'] = { fg = p.blue }, ['@lsp.type.angle'] = { fg = p.yellow },
+    ['@lsp.type.brace'] = { fg = p.yellow }, ['@lsp.type.bracket'] = { fg = p.yellow },
+    ['@lsp.type.parenthesis'] = { fg = p.yellow }, ['@lsp.type.attributeBracket'] = { fg = p.yellow },
+    ['@lsp.type.selfKeyword'] = { fg = p.pink, italic = true },
+    ['@lsp.type.selfTypeKeyword'] = { fg = p.green },
+    ['@lsp.type.attribute'] = { fg = p.magenta }, ['@lsp.type.builtinAttribute'] = { fg = p.magenta },
     ['@lsp.type.decorator'] = { fg = p.magenta, italic = true },
-    ['@lsp.mod.readonly'] = { italic = true }, ['@lsp.mod.deprecated'] = { strikethrough = true },
+    ['@lsp.type.unresolvedReference'] = { fg = p.red },
+    ['@lsp.mod.controlFlow'] = { fg = p.blue }, ['@lsp.mod.crateRoot'] = { fg = p.yellow },
+    ['@lsp.mod.readonly'] = { italic = true },
+    ['@lsp.mod.deprecated'] = { strikethrough = true },
   }
   for g, s in pairs(lsp) do hi(g, s) end
-  local rust_lsp = {
-    ['@lsp.type.namespace.rust'] = { fg = p.green },
-    ['@lsp.type.parameter.rust'] = { fg = p.fg_bright },
-    ['@lsp.type.property.rust'] = { fg = p.fg_bright },
-    ['@lsp.type.enumMember.rust'] = { fg = p.green },
-    ['@lsp.type.selfKeyword.rust'] = { fg = p.pink, italic = true },
-  }
-  for g, s in pairs(rust_lsp) do hi(g, s) end
-  local nix_lsp = {
-    ['@lsp.type.keyword.nix'] = { fg = p.yellow },
-    ['@lsp.type.parameter.nix'] = { fg = p.yellow },
-    ['@lsp.type.property.nix'] = { fg = p.magenta },
-  }
-  for g, s in pairs(nix_lsp) do hi(g, s) end
-  for _, lang in ipairs({ 'css', 'scss', 'sass', 'less' }) do
-    hi('@property.' .. lang, { fg = p.property })
-    hi('@lsp.type.property.' .. lang, { fg = p.property })
-  end
   -- Diagnostics
   hi('DiagnosticError', { fg = '#FF1865' })
   hi('DiagnosticWarn', { fg = p.warning })
